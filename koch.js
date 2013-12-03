@@ -22,6 +22,16 @@ document.getElementById("stepsSlide").value = stepsElement.value = steps;
 randomSeedElement.value = "123ABC";
 isHidingElement.checked = isHiding = false;
 
+function removePoint(e){
+    if(!movingPoint || e.keyCode != 46) return;
+    for(var i = 0; i < pointsParam.length; i++){
+        if(pointsParam[i].x == movingPoint.x && pointsParam[i].y == movingPoint.y)
+            pointsParam.splice(i, 1);
+    }
+}
+
+window.addEventListener("keydown", removePoint, false);
+
 function mouseMove(e) {
     if(!e.which || !movingPoint) return;
     if (e.offsetX) {
@@ -47,6 +57,19 @@ function getPointAtOrUndefined(point){
     return null;
 }
 
+function getNearestPoint(p){
+    var nearestDistance = 99999;
+    var nearestPoint;
+    for(var i = 0; i < pointsParam.length; i++){
+        var distance = Math.abs( pointsParam[i].x - p.x ) + Math.abs(pointsParam[i].y - p.y );
+        if(distance < nearestDistance){
+            nearestDistance = distance;
+            nearestPoint = pointsParam[i];
+        }
+    }
+    return nearestPoint;
+}
+
 function mouseDown(e) {
     if (e.offsetX) {
         mouseX = e.offsetX;
@@ -56,7 +79,32 @@ function mouseDown(e) {
         mouseX = e.layerX;
         mouseY = e.layerY;
     }
-    movingPoint = getPointAtOrUndefined({x:mouseX,y:mouseY});    
+    movingPoint = getPointAtOrUndefined({x:mouseX,y:mouseY});
+    if(!movingPoint && e.ctrlKey){
+        var p = {x:mouseX,y:mouseY};
+        while(getPointAtOrUndefined(p)){
+            p.x+= grabPointRadius;
+        }
+        movingPoint = {x:p.x,y:p.y};
+    
+        var nearestPoint = getNearestPoint(movingPoint);
+        for(var i = 0; i < pointsParam.length; i++){
+            if(nearestPoint.x == pointsParam[i].x && nearestPoint.y == pointsParam[i].y ){
+                var nextIndex = (i+1) % pointsParam.length;
+                var beforeIndex = (i-1 >= 0) ?i-1: pointsParam.length - i-1;
+                
+                var pointBeforeDistance = Math.abs( pointsParam[beforeIndex].x - movingPoint.x ) + Math.abs(pointsParam[beforeIndex].y - movingPoint.y );
+                var pointAfterDistance = Math.abs( pointsParam[nextIndex].x - movingPoint.x ) + Math.abs(pointsParam[nextIndex].y - movingPoint.y );
+                
+                if(pointBeforeDistance < pointAfterDistance){
+                    pointsParam.splice(i+1, 0, movingPoint);
+                }else{
+                    pointsParam.splice(i, 0, movingPoint);    
+                }
+                return;
+            }
+        }
+    }
 };
 
 canvas.addEventListener('mousedown',mouseDown,false);
@@ -70,18 +118,6 @@ function addPoint(e){
     movingPoint = {x:p.x,y:p.y};
     pointsParam.push(movingPoint);
 }
-
-document.getElementById("addPoint").addEventListener('click',addPoint,false);
-
-function removePoint(e){
-    if(!movingPoint) return;
-    for(var i = 0; i < pointsParam.length; i++){
-        if(pointsParam[i].x == movingPoint.x && pointsParam[i].y == movingPoint.y)
-            pointsParam.splice(i, 1);
-    }
-}
-
-document.getElementById("removePoint").addEventListener('click',removePoint,false);
         
 var deg180 = Math.PI;
 var deg90 = (90*Math.PI)/180;
@@ -172,7 +208,6 @@ function setKochStyle(){
         context.lineWidth = 1;
         var grd=context.createLinearGradient(0,0,canvas.width,canvas.height);
         grd.addColorStop(0,"#55aa77");
-        //grd.addColorStop(0,"white");
         grd.addColorStop(1,"#77cc55");
 
         context.fillStyle=grd;
