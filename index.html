@@ -1,0 +1,44 @@
+<html>
+<style>
+body
+{
+	background-image:url('satinweave.png');
+	background-repeat:repeat;
+	font-family:"Courier New";
+	font-weight: bold;
+}
+
+</style>
+
+<body >
+<!--
+background from http://subtlepatterns.com/
+-->
+	<canvas id="game-canvas" width="1024" height="768" style="border:1px solid #000000;">
+		Your browser does not support the HTML5 canvas tag.
+	</canvas>
+	<br>
+	Segmentation: <input id="apertureSlide" 
+		onchange="document.getElementById('aperture').value=this.value" 
+		type="range" min="0" max="0.5" step="0.01" />
+	<input type="text" id="aperture" value="0.33" size="2" readonly>
+	<br>
+	Steps: <input id="stepsSlide" 
+                onchange="document.getElementById('steps').value=this.value" 
+                type="range" min="1" max="5" step="1" />
+        <input type="text" id="steps" value="1" size="1" readonly>
+	<br>
+	Random: <input id="isRandom" type="checkbox">
+	<br>
+	Seed: <input type="text" id="randomSeed">
+	<br>
+	<br>
+        Hide points: <input id="isHiding" type="checkbox">
+	<br>
+	<button id="addPoint">add point</button>
+	<button id="removePoint">remove point</button>
+        <br>
+	<script type="text/javascript" src="seedrandom.js"></script>
+	<script type="text/javascript" src="koch.js"></script>
+</body>
+</html>
