@@ -56,7 +56,18 @@ function mouseDown(e) {
         mouseX = e.layerX;
         mouseY = e.layerY;
     }
-    movingPoint = getPointAtOrUndefined({x:mouseX,y:mouseY});    
+    movingPoint = getPointAtOrUndefined({x:mouseX,y:mouseY});
+    if(!movingPoint){
+        if(e.ctrlKey){
+            var p = {x:mouseX,y:mouseY};
+            while(getPointAtOrUndefined(p)){
+                p.x+= grabPointRadius;
+            }
+            
+            movingPoint = {x:p.x,y:p.y};
+            pointsParam.push(movingPoint);
+        }
+    }
 };
 
 canvas.addEventListener('mousedown',mouseDown,false);
