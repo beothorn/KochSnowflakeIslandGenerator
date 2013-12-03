@@ -90,7 +90,17 @@ function mouseDown(e) {
         var nearestPoint = getNearestPoint(movingPoint);
         for(var i = 0; i < pointsParam.length; i++){
             if(nearestPoint.x == pointsParam[i].x && nearestPoint.y == pointsParam[i].y ){
-                pointsParam.splice(i, 0, movingPoint);
+                var nextIndex = (i+1) % pointsParam.length;
+                var beforeIndex = (i-1 >= 0) ?i-1: pointsParam.length - i-1;
+                
+                var pointBeforeDistance = Math.abs( pointsParam[beforeIndex].x - movingPoint.x ) + Math.abs(pointsParam[beforeIndex].y - movingPoint.y );
+                var pointAfterDistance = Math.abs( pointsParam[nextIndex].x - movingPoint.x ) + Math.abs(pointsParam[nextIndex].y - movingPoint.y );
+                
+                if(pointBeforeDistance < pointAfterDistance){
+                    pointsParam.splice(i+1, 0, movingPoint);
+                }else{
+                    pointsParam.splice(i, 0, movingPoint);    
+                }
                 return;
             }
         }
@@ -198,7 +208,6 @@ function setKochStyle(){
         context.lineWidth = 1;
         var grd=context.createLinearGradient(0,0,canvas.width,canvas.height);
         grd.addColorStop(0,"#55aa77");
-        //grd.addColorStop(0,"white");
         grd.addColorStop(1,"#77cc55");
 
         context.fillStyle=grd;
