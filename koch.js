@@ -22,6 +22,16 @@ document.getElementById("stepsSlide").value = stepsElement.value = steps;
 randomSeedElement.value = "123ABC";
 isHidingElement.checked = isHiding = false;
 
+function removePoint(e){
+    if(!movingPoint || e.keyCode != 46) return;
+    for(var i = 0; i < pointsParam.length; i++){
+        if(pointsParam[i].x == movingPoint.x && pointsParam[i].y == movingPoint.y)
+            pointsParam.splice(i, 1);
+    }
+}
+
+window.addEventListener("keydown", removePoint, false);
+
 function mouseMove(e) {
     if(!e.which || !movingPoint) return;
     if (e.offsetX) {
@@ -47,6 +57,19 @@ function getPointAtOrUndefined(point){
     return null;
 }
 
+function getNearestPoint(p){
+    var nearestDistance = 99999;
+    var nearestPoint;
+    for(var i = 0; i < pointsParam.length; i++){
+        var distance = Math.abs( pointsParam[i].x - p.x ) + Math.abs(pointsParam[i].y - p.y );
+        if(distance < nearestDistance){
+            nearestDistance = distance;
+            nearestPoint = pointsParam[i];
+        }
+    }
+    return nearestPoint;
+}
+
 function mouseDown(e) {
     if (e.offsetX) {
         mouseX = e.offsetX;
@@ -57,15 +80,19 @@ function mouseDown(e) {
         mouseY = e.layerY;
     }
     movingPoint = getPointAtOrUndefined({x:mouseX,y:mouseY});
-    if(!movingPoint){
-        if(e.ctrlKey){
-            var p = {x:mouseX,y:mouseY};
-            while(getPointAtOrUndefined(p)){
-                p.x+= grabPointRadius;
+    if(!movingPoint && e.ctrlKey){
+        var p = {x:mouseX,y:mouseY};
+        while(getPointAtOrUndefined(p)){
+            p.x+= grabPointRadius;
+        }
+        movingPoint = {x:p.x,y:p.y};
+    
+        var nearestPoint = getNearestPoint(movingPoint);
+        for(var i = 0; i < pointsParam.length; i++){
+            if(nearestPoint.x == pointsParam[i].x && nearestPoint.y == pointsParam[i].y ){
+                pointsParam.splice(i, 0, movingPoint);
+                return;
             }
-            
-            movingPoint = {x:p.x,y:p.y};
-            pointsParam.push(movingPoint);
         }
     }
 };
@@ -81,18 +108,6 @@ function addPoint(e){
     movingPoint = {x:p.x,y:p.y};
     pointsParam.push(movingPoint);
 }
-
-document.getElementById("addPoint").addEventListener('click',addPoint,false);
-
-function removePoint(e){
-    if(!movingPoint) return;
-    for(var i = 0; i < pointsParam.length; i++){
-        if(pointsParam[i].x == movingPoint.x && pointsParam[i].y == movingPoint.y)
-            pointsParam.splice(i, 1);
-    }
-}
-
-document.getElementById("removePoint").addEventListener('click',removePoint,false);
         
 var deg180 = Math.PI;
 var deg90 = (90*Math.PI)/180;

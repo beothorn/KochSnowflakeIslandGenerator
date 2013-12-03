@@ -2,7 +2,7 @@
 <style>
 body
 {
-	background-image:url('satinweave.png');
+	background-image:url('satinweave.png');/** background from http://subtlepatterns.com/ */
 	background-repeat:repeat;
 	font-family:"Courier New";
 	font-weight: bold;
@@ -11,9 +11,6 @@ body
 </style>
 
 <body >
-<!--
-background from http://subtlepatterns.com/
--->
 	<canvas id="game-canvas" width="1024" height="768" style="border:1px solid #000000;">
 		Your browser does not support the HTML5 canvas tag.
 	</canvas>
@@ -34,10 +31,6 @@ background from http://subtlepatterns.com/
 	<br>
 	<br>
         Hide points: <input id="isHiding" type="checkbox">
-	<br>
-	<button id="addPoint">add point</button>
-	<button id="removePoint">remove point</button>
-        <br>
 	<script type="text/javascript" src="seedrandom.js"></script>
 	<script type="text/javascript" src="koch.js"></script>
 </body>
