@@ -8,15 +8,15 @@ body
 	font-weight: bold;
 }
 
-.col-1{
+.col{
 	float:left;
-	width:50%;
+	width:33%;
 	height: 1.5em;
 }
 
 .col-2{
         float:right;
-        width:50%;
+        width:66%;
 	height: 1.5em;
 }
 
@@ -39,30 +39,33 @@ body
 	</p>
 	</div>
 	<div class="row">
-        	<div class="col-1">	
+        	<div class="col">	
 			Segmentation:
 		</div>
-		<div class="col-2">
+		<div class="col">
 			<input id="apertureSlide" 
 				onchange="document.getElementById('aperture').value=this.value" 
 				type="range" min="0" max="0.5" step="0.01" />
-			<span><input type="text" id="aperture" value="0.33" size="2" readonly>
-			</span>
+		</div>
+		<div class="col">
+			<input type="text" id="aperture" value="0.33" size="2" readonly>
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-1">
+		<div class="col">
 			Steps: 
 		</div>
-		<div class="col-2">
+		<div class="col">
 			<input id="stepsSlide" 
                 		onchange="document.getElementById('steps').value=this.value" 
                 		type="range" min="1" max="5" step="1" />
+		</div>
+		<div class="col">
         		<input type="text" id="steps" value="1" size="2" readonly>
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-1">
+		<div class="col">
 			Random: 
 		</div>
 		<div class="col-2">
@@ -70,7 +73,7 @@ body
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-1">
+		<div class="col">
 			Seed: 
 		</div>
 		<div class="col-2">
@@ -78,7 +81,7 @@ body
 		</div>
 	</div>
 	<div class="row">
-                <div class="col-1">
+                <div class="col">
         		Hide points: 
 		</div>
 		<div class="col-2">
