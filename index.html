@@ -8,86 +8,43 @@ body
 	font-weight: bold;
 }
 
-.col{
-	float:left;
-	width:33%;
-	height: 1.5em;
-}
-
-.col-2{
-        float:right;
-        width:66%;
-	height: 1.5em;
-}
-
-.row{
-	display:inline;
-}
-
-.panel{
-	width:25em;
-}
-
 </style>
 <body >
+	<div class="row">
+	Made with chrome
+	</div>
 	<canvas id="game-canvas" width="1024" height="768" style="border:1px solid #000000;">
 		Your browser does not support the HTML5 canvas tag.
 	</canvas>
-	<div class="panel">
 	<div class="row">
 	<p>Use control+click to add points. To remove a point, select it and press delete.
 	</p>
 	</div>
 	<div class="row">
-        	<div class="col">	
 			Segmentation:
-		</div>
-		<div class="col">
 			<input id="apertureSlide" 
 				onchange="document.getElementById('aperture').value=this.value" 
 				type="range" min="0" max="0.5" step="0.01" />
-		</div>
-		<div class="col">
 			<input type="text" id="aperture" value="0.33" size="2" readonly>
-		</div>
 	</div>
 	<div class="row">
-		<div class="col">
 			Steps: 
-		</div>
-		<div class="col">
 			<input id="stepsSlide" 
                 		onchange="document.getElementById('steps').value=this.value" 
                 		type="range" min="1" max="5" step="1" />
-		</div>
-		<div class="col">
         		<input type="text" id="steps" value="1" size="2" readonly>
-		</div>
 	</div>
 	<div class="row">
-		<div class="col">
 			Random: 
-		</div>
-		<div class="col-2">
 			<input id="isRandom" type="checkbox">
-		</div>
 	</div>
 	<div class="row">
-		<div class="col">
 			Seed: 
-		</div>
-		<div class="col-2">
 			<input style="width:100%;" type="text" id="randomSeed">
-		</div>
 	</div>
 	<div class="row">
-                <div class="col">
         		Hide points: 
-		</div>
-		<div class="col-2">
 			<input id="isHiding" type="checkbox">
-		</div>
-	</div>
 	</div>
 	<script type="text/javascript" src="seedrandom.js"></script>
 	<script type="text/javascript" src="koch.js"></script>

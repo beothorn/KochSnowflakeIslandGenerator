@@ -9,6 +9,7 @@ var lineAperture = 0.2;
 var isRandom = true;
 var steps = 5;
 var isHiding = false;
+var mouseButtonIsPressed = false;
 
 var apertureElement = document.getElementById("aperture");
 var isRandomElement = document.getElementById("isRandom");
@@ -22,6 +23,26 @@ document.getElementById("stepsSlide").value = stepsElement.value = steps;
 randomSeedElement.value = "123ABC";
 isHidingElement.checked = isHiding = false;
 
+function updateMousePosition(event) {
+    var cX = 0,
+        cY = 0;
+
+    if (event.pageX || event.pageY) {
+        cX = event.pageX;
+        cY = event.pageY;
+    }
+    else {
+        cX = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+        cY = event.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+    }
+
+    cX -= canvas.offsetLeft;
+    cY -= canvas.offsetTop;
+
+    mouseX = cX;
+    mouseY = cY;
+}
+
 function removePoint(e){
     if(!movingPoint || e.keyCode != 46) return;
     for(var i = 0; i < pointsParam.length; i++){
@@ -33,20 +54,12 @@ function removePoint(e){
 window.addEventListener("keydown", removePoint, false);
 
 function mouseMove(e) {
-    if(!e.which || !movingPoint) return;
-    if (e.offsetX) {
-        mouseX = e.offsetX;
-        mouseY = e.offsetY;
-    }
-    else if (e.layerX) {
-        mouseX = e.layerX;
-        mouseY = e.layerY;
-    }
-    
+    if(!mouseButtonIsPressed || !movingPoint) return;    
     movingPoint.x = mouseX;
     movingPoint.y = mouseY;
 };
 
+canvas.addEventListener('mousemove',updateMousePosition,false);
 canvas.addEventListener('mousemove',mouseMove,false);
 
 function getPointAtOrUndefined(point){
@@ -71,14 +84,7 @@ function getNearestPoint(p){
 }
 
 function mouseDown(e) {
-    if (e.offsetX) {
-        mouseX = e.offsetX;
-        mouseY = e.offsetY;
-    }
-    else if (e.layerX) {
-        mouseX = e.layerX;
-        mouseY = e.layerY;
-    }
+    mouseButtonIsPressed = true;
     movingPoint = getPointAtOrUndefined({x:mouseX,y:mouseY});
     if(!movingPoint && e.ctrlKey){
         var p = {x:mouseX,y:mouseY};
@@ -108,6 +114,13 @@ function mouseDown(e) {
 };
 
 canvas.addEventListener('mousedown',mouseDown,false);
+
+function mouseUp(e){
+    mouseButtonIsPressed = false;
+}
+
+canvas.addEventListener('mouseup',mouseUp,false);
+
 
 function addPoint(e){
     var p = {x:canvas.width/2,y:canvas.height/2};
