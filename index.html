@@ -2,50 +2,103 @@
 <style>
 body
 {
+	text-align:center;
+	padding:0px;
 	background-image:url('satinweave.png');/** background from http://subtlepatterns.com/ */
 	background-repeat:repeat;
 	font-family:"Courier New";
 	font-weight: bold;
 }
 
+.col-1{
+	float:left;
+	width:50%;
+	height: 1.5em;
+}
+
+.col-2{
+        float:right;
+        width:50%;
+	height: 1.5em;
+}
+
+.row{
+	display:inline;
+}
+
+.panel{
+
+}
+
+#Content {
+	width:900px;
+	margin:0px auto;
+	text-align:left;
+	padding:15px;
+}
+
 </style>
 <body >
-	<div class="row">
-	Made with chrome
-	</div>
+
+<a href="https://github.com/beothorn/KochSnowflakeIslandGenerator"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://github-camo.global.ssl.fastly.net/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"></a>
+<div id="Content">
 	<canvas id="game-canvas" width="1024" height="768" style="border:1px solid #000000;">
 		Your browser does not support the HTML5 canvas tag.
 	</canvas>
+	<div class="panel">
 	<div class="row">
 	<p>Use control+click to add points. To remove a point, select it and press delete.
 	</p>
 	</div>
 	<div class="row">
+        	<div class="col-1">	
 			Segmentation:
+		</div>
+		<div class="col-2">
 			<input id="apertureSlide" 
 				onchange="document.getElementById('aperture').value=this.value" 
 				type="range" min="0" max="0.5" step="0.01" />
-			<input type="text" id="aperture" value="0.33" size="2" readonly>
+			<span><input type="text" id="aperture" value="0.33" size="2" readonly>
+			</span>
+		</div>
 	</div>
 	<div class="row">
+		<div class="col-1">
 			Steps: 
+		</div>
+		<div class="col-2">
 			<input id="stepsSlide" 
                 		onchange="document.getElementById('steps').value=this.value" 
                 		type="range" min="1" max="5" step="1" />
         		<input type="text" id="steps" value="1" size="2" readonly>
+		</div>
 	</div>
 	<div class="row">
+		<div class="col-1">
 			Random: 
+		</div>
+		<div class="col-2">
 			<input id="isRandom" type="checkbox">
+		</div>
 	</div>
 	<div class="row">
+		<div class="col-1">
 			Seed: 
+		</div>
+		<div class="col-2">
 			<input style="width:100%;" type="text" id="randomSeed">
+		</div>
 	</div>
 	<div class="row">
+                <div class="col-1">
         		Hide points: 
+		</div>
+		<div class="col-2">
 			<input id="isHiding" type="checkbox">
+		</div>
 	</div>
+	</div>
+</div>
 	<script type="text/javascript" src="seedrandom.js"></script>
 	<script type="text/javascript" src="koch.js"></script>
 </body>
